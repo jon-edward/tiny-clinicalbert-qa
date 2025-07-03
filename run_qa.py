@@ -742,7 +742,7 @@ def main():
             kwargs["dataset"] = data_args.dataset_name
 
     if training_args.push_to_hub:
-        # trainer.push_to_hub(**kwargs)
+        trainer.push_to_hub(**kwargs)
 
         with open("README.md", "r", encoding="utf8") as f:
             readme = f.read()
