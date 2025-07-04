@@ -22,8 +22,8 @@ def save_concatenated_dataset(output_path: str):
         example["answers"]["answer_end"] = None  # exists in emrqa-msquad but not squad
         return example
     
-    squad = load_dataset("rajpurkar/squad_v2").map(normalize_for_concat, desc="Normalizing squad")
-    emrqa = load_dataset("Eladio/emrqa-msquad").map(normalize_for_concat, desc="Normalizing emrQA-msquad")
+    squad: DatasetDict = load_dataset("rajpurkar/squad_v2").map(normalize_for_concat, desc="Normalizing squad") # type: ignore
+    emrqa: DatasetDict = load_dataset("Eladio/emrqa-msquad").map(normalize_for_concat, desc="Normalizing emrQA-msquad") # type: ignore
 
     train = concatenate_datasets([squad["train"], emrqa["train"]]).shuffle(seed=42)
     validation = concatenate_datasets([squad["validation"], emrqa["validation"]]).shuffle(seed=42)

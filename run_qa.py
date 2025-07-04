@@ -25,7 +25,6 @@ import os
 import sys
 import warnings
 from dataclasses import dataclass, field
-import textwrap
 from typing import List, Optional
 import uuid
 
@@ -39,17 +38,15 @@ import transformers
 from transformers import (
     AutoConfig,
     AutoModelForQuestionAnswering,
-    AutoTokenizer,
-    DataCollatorWithPadding,
-    EvalPrediction,
-    HfArgumentParser,
-    PreTrainedTokenizerFast,
-    TrainingArguments,
-    default_data_collator,
-    set_seed,
+    AutoTokenizer
 )
-from transformers.trainer_utils import get_last_checkpoint
-from transformers.utils import check_min_version, send_example_telemetry
+
+from transformers.data.data_collator import DataCollatorWithPadding, default_data_collator
+from transformers.hf_argparser import HfArgumentParser
+from transformers.tokenization_utils_fast import PreTrainedTokenizerFast
+from transformers.trainer_utils import get_last_checkpoint, EvalPrediction, set_seed
+from transformers.training_args import TrainingArguments
+from transformers.utils.hub import send_example_telemetry
 from transformers.utils.versions import require_version
 
 from huggingface_hub.repocard import RepoCard
@@ -243,7 +240,8 @@ def main():
     # or by passing the --help flag to this script.
     # We now keep distinct sets of args, for a cleaner separation of concerns.
 
-    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments))
+    parser = HfArgumentParser((ModelArguments, DataTrainingArguments, TrainingArguments)) # type: ignore
+    
     if len(sys.argv) == 2 and sys.argv[1].endswith(".json"):
         # If we pass only one argument to the script and it's the path to a json file,
         # let's parse it to get our arguments.
@@ -323,7 +321,6 @@ def main():
         if data_args.train_file is not None:
             data_files["train"] = data_args.train_file
             extension = data_args.train_file.split(".")[-1]
-
         if data_args.validation_file is not None:
             data_files["validation"] = data_args.validation_file
             extension = data_args.validation_file.split(".")[-1]
@@ -731,8 +728,8 @@ def main():
 
     if model_args.finetuned_from is not None:
         kwargs["finetuned_from"] = model_args.finetuned_from
+
     if data_args.dataset_name is not None:
-        kwargs["dataset_tags"] = data_args.dataset_name
         if data_args.hub_dataset_names is not None:
             kwargs["dataset"] = data_args.hub_dataset_names
         elif data_args.dataset_config_name is not None:
@@ -740,27 +737,13 @@ def main():
             kwargs["dataset"] = f"{data_args.dataset_name} {data_args.dataset_config_name}"
         else:
             kwargs["dataset"] = data_args.dataset_name
-
+    
     if training_args.push_to_hub:
-        trainer.push_to_hub(**kwargs)
+        print("Pushed to hub", trainer.push_to_hub(**kwargs))
 
         with open("README.md", "r", encoding="utf8") as f:
-            readme = f.read()
-        metadata = textwrap.dedent("""
-        ---
-        language: en
-        license: mit
-        tags:
-        - question-answering
-        - pytorch
-        - bert
-        datasets:
-        - rajpurkar/squad_v2
-        - Eladio/emrqa-msquad
-        ---
-        """)
-        
-        RepoCard(f"{metadata}\n{readme}").push_to_hub(repo_id=training_args.hub_model_id, token=training_args.push_to_hub_token)
+            readme = f.read()        
+        RepoCard(readme).push_to_hub(repo_id=training_args.hub_model_id, token=training_args.push_to_hub_token)
     else:
         trainer.create_model_card(**kwargs)
 

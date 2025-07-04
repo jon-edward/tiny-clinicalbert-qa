@@ -28,4 +28,5 @@ python run_qa.py \
   --push_to_hub \
   --push_to_hub_token $(cat hub_token.txt) \
   --hub_model_id "jon-t/tiny-clinicalbert-qa" \
+  --hub_dataset_names "Eladio/emrqa-msquad" "rajpurkar/squad_v2" \
   ${extra_args[@]}
