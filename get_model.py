@@ -29,4 +29,4 @@ if __name__ == "__main__":
         tokenizer.save_pretrained(temp_dir)
 
         with tarfile.open(out_path, "w:gz") as tar:
-            tar.add(out_path, arcname=".")
+            tar.add(temp_dir, arcname=".")
