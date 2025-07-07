@@ -742,7 +742,9 @@ def main():
         print("Pushed to hub", trainer.push_to_hub(**kwargs))
 
         with open("README.md", "r", encoding="utf8") as f:
-            readme = f.read()        
+            readme = f.read()
+        
+        # Add custom README content
         RepoCard(readme).push_to_hub(repo_id=training_args.hub_model_id, token=training_args.push_to_hub_token)
     else:
         trainer.create_model_card(**kwargs)

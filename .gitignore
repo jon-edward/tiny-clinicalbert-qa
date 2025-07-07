@@ -209,3 +209,4 @@ __marimo__/
 hub_token.txt
 generated_dataset/
 trained_model/
+tiny-clinicalbert-qa.tar.gz

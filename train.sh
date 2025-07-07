@@ -9,15 +9,15 @@ fi
 
 dataset_location=./generated_dataset
 
-python generate_dataset.py ${dataset_location}
+python ./tiny_clinicalbert_qa/generate_dataset.py ${dataset_location}
 
-python run_qa.py \
+python ./tiny_clinicalbert_qa/run_qa.py \
   --model_name_or_path ${base_model_name} \
   --dataset_name ${dataset_location} \
   --version_2_with_negative \
-  --per_device_train_batch_size 12 \
-  --learning_rate 1e-4 \
-  --num_train_epochs 2 \
+  --per_device_train_batch_size 16 \
+  --learning_rate 5e-5 \
+  --num_train_epochs 5 \
   --max_seq_length 512 \
   --doc_stride 128 \
   --output_dir trained_model \
