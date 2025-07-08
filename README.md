@@ -1,17 +1,5 @@
----
-language: en
-license: mit
-tags:
-  - question-answering
-  - pytorch
-  - bert
-datasets:
-  - rajpurkar/squad_v2
-  - Eladio/emrqa-msquad
----
-
 # tiny-clinicalbert-qa
 
-A tiny clinical QA model that is trained using the merged [squad_v2](https://huggingface.co/datasets/rajpurkar/squad_v2) and [emrqa-msquad](https://huggingface.co/datasets/Eladio/emrqa-msquad) datasets.
+A lightweight, domain-adapted BERT model for clinical question answering, trained on a combination of [SQuAD v2](https://huggingface.co/datasets/rajpurkar/squad_v2) and [EMRQA-MSQuAD](https://huggingface.co/datasets/Eladio/emrqa-msquad) datasets. This project provides scripts and utilities for dataset preparation, model training, and evaluation.
 
-Source code for the training script is available [on GitHub](https://github.com/jon-edward/tiny-clinicalbert-qa). See [eval_results.json](https://huggingface.co/jon-t/tiny-clinicalbert-qa/blob/main/eval_results.json) for evaluation results, and [train_results.json](https://huggingface.co/jon-t/tiny-clinicalbert-qa/blob/main/train_results.json) for training results.
+Evaluation and training results for the trained model are available on the [Hugging Face Hub](https://huggingface.co/jon-t/tiny-clinicalbert-qa).

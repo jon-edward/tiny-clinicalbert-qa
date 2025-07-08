@@ -16,7 +16,10 @@ python ./tiny_clinicalbert_qa/run_qa.py \
   --dataset_name ${dataset_location} \
   --version_2_with_negative \
   --per_device_train_batch_size 16 \
-  --learning_rate 5e-5 \
+  --learning_rate 3e-5 \
+  --num_train_epochs 8 \
+  --weight_decay 0.01 \
+  --warmup_steps 500 \
   --num_train_epochs 5 \
   --max_seq_length 512 \
   --doc_stride 128 \

@@ -741,7 +741,7 @@ def main():
     if training_args.push_to_hub:
         print("Pushed to hub", trainer.push_to_hub(**kwargs))
 
-        with open("README.md", "r", encoding="utf8") as f:
+        with open("README_hf.md", "r", encoding="utf8") as f:
             readme = f.read()
         
         # Add custom README content
